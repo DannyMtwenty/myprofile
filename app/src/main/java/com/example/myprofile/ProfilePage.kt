@@ -31,17 +31,17 @@ import com.example.myprofile.ui.theme.MyProfileTheme
 @Composable
 fun  ProfilePage(){
     Card(modifier = Modifier
-        .padding(top = 100.dp, bottom = 100.dp, start = 20.dp, end = 20.dp)
+        .padding(top = 50.dp, bottom = 50.dp, start = 20.dp, end = 20.dp)
         .fillMaxSize()
-        .border(width = 3.dp, color = Color.White, shape = RoundedCornerShape(30.dp)),
-    elevation = 7.dp) //card shadow effect
+        .border(width = 2.dp, color = Color.White, shape = RoundedCornerShape(30.dp)),
+    elevation = 6.dp) //card shadow effect
     {
         //place constraint layout in boxlayoutwithconstraints
         BoxWithConstraints() {
             val constraints = if (minWidth < 600.dp) {
                 portraitConstraints(16.dp)
             } else {
-                portraitConstraints(16.dp)
+                landscapeConstraints(10.dp)
             }
 
 
@@ -70,9 +70,14 @@ fun  ProfilePage(){
                 modifier = Modifier
                     .padding(top = 5.dp)
                     .fillMaxWidth()
+
                     .layoutId("rowstats"),
 
+//                horizontalArrangement = Arrangement.spacedBy(10.dp) ,
+
                 horizontalArrangement = Arrangement.SpaceEvenly
+
+
             ) {
                 ProfileStatistics(count = "12k", desc = "Followers")
                 ProfileStatistics(count = "467", desc = "Following")
@@ -135,6 +140,8 @@ private fun portraitConstraints(margin:Dp) : androidx.constraintlayout.compose.C
         }
         constrain(rowstats){
             top.linkTo(country.bottom)
+
+
         }
         constrain(btnfollow){
             top.linkTo(rowstats.bottom,margin = margin)
@@ -150,6 +157,62 @@ private fun portraitConstraints(margin:Dp) : androidx.constraintlayout.compose.C
             bottom.linkTo(parent.bottom,margin = margin)
             width= Dimension.wrapContent //btn as wide as content
         }
+    }
+}
+
+
+//define constrainsets,,for potrait and landscape
+
+private fun landscapeConstraints(margin:Dp) : androidx.constraintlayout.compose.ConstraintSet {
+    return ConstraintSet{
+        //constraint items
+        val image=createRefFor("image")
+        val username=createRefFor("username")
+        val country=createRefFor("country")
+        val rowstats=createRefFor("rowstats")
+        val btnfollow=createRefFor("btnfollow")
+        val btnmsg=createRefFor("btnmsg")
+
+
+
+        constrain(image){
+            top.linkTo(parent.top,margin = margin)
+            start.linkTo(parent.start,margin=margin)
+//            end.linkTo(username.start)
+//            bottom.linkTo(parent.bottom,margin=margin   )
+
+        }
+        constrain(username){
+            top.linkTo(image.bottom)
+            start.linkTo(image.start,margin = margin)
+
+        }
+        constrain(country){
+            top.linkTo(username.bottom)
+            start.linkTo(username.start,margin = margin)
+
+        }
+
+        constrain(rowstats){
+            top.linkTo(image.top)
+            start.linkTo(image.end)
+            end.linkTo(parent.end)
+        }
+        constrain(btnfollow){
+            top.linkTo(rowstats.bottom,margin = margin)
+            start.linkTo(image.end,margin = margin)
+            end.linkTo(btnmsg.start)
+            bottom.linkTo(parent.bottom,margin = margin)
+            width= Dimension.wrapContent //btn as wide as content
+        }
+        constrain(btnmsg){
+            top.linkTo(rowstats.bottom,margin = margin)
+            start.linkTo(btnfollow.end,margin = margin)
+//            end.linkTo(parent.end)
+            bottom.linkTo(parent.bottom,margin = margin)
+            width= Dimension.wrapContent //btn as wide as content
+        }
+
     }
 }
 
