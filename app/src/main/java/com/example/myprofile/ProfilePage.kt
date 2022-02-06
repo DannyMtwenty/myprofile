@@ -23,12 +23,13 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
+import androidx.navigation.NavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 
 @Composable
-fun ProfilePage() {
+fun ProfilePage(navController: NavController) {
 
     val scaffoldState = rememberScaffoldState() // this contains the `SnackbarHostState`
     val coroutineScope = rememberCoroutineScope()
@@ -43,8 +44,8 @@ fun ProfilePage() {
                 .padding(top = 100.dp, bottom = 100.dp, start = 20.dp, end = 20.dp)
                 .fillMaxSize()
                 .border(width = 3.dp, color = Color.White, shape = RoundedCornerShape(30.dp)),
-            elevation = 7.dp
-        ) //card shadow effect
+            elevation = 7.dp //card shadow effect
+        )
         {
             //place constraint layout in boxlayoutwithconstraints
             BoxWithConstraints() {
@@ -63,7 +64,7 @@ fun ProfilePage() {
 
                     Image(
                         painter = painterResource(id = R.drawable.cynthia),
-                        contentDescription = "The cat",
+                        contentDescription = "danny",
                         modifier = Modifier
                             .size(150.dp)
                             .clip(CircleShape)
@@ -108,12 +109,14 @@ fun ProfilePage() {
                         Text(text = "Follow")
                     }
                     Button(onClick = {
+                        /*
                         showSnackbar(
                             coroutineScope = coroutineScope,
                             scaffoldState = scaffoldState,
                             message = "Send Message!",
                             caption = "Undo?"
-                        )
+                        ) */
+                        navController.navigate(Screen.MessageScreen.route)
                     }, modifier = Modifier.layoutId("btnmsg")) {
                         Text(text = "Message")
                     }
@@ -205,8 +208,8 @@ private fun portraitConstraints(margin: Dp): androidx.constraintlayout.compose.C
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun ProfilePagePreview() {
-    ProfilePage()
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun ProfilePagePreview() {
+//    ProfilePage(navController = NavController)
+//}
